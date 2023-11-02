@@ -1,4 +1,29 @@
 ---
+
+- name: Enable remi repository
+  yum_repository:
+    name: remi
+    description: Remi's RPM repository for Enterprise Linux 9 - $basearch
+    mirrorlist: http://cdn.remirepo.net/enterprise/9/remi/$basearch/mirror
+    gpgkey: https://rpms.remirepo.net/RPM-GPG-KEY-remi2021
+    gpgcheck: yes
+
+- name: Enable remi-safe repository
+  yum_repository:
+    name: remisafe
+    description: Safe Remi's RPM repository for Enterprise Linux 9 - $basearch
+    mirrorlist: http://cdn.remirepo.net/enterprise/9/safe/$basearch/mirror
+    gpgkey: https://rpms.remirepo.net/RPM-GPG-KEY-remi2021
+    gpgcheck: yes
+
+- name: Enable remi-modular repository
+  yum_repository:
+    name: remi-modular
+    description: Remi's Modular repository for Enterprise Linux 9 - $basearch
+    mirrorlist: http://cdn.remirepo.net/enterprise/9/modular/$basearch/mirror
+    gpgkey: https://rpms.remirepo.net/RPM-GPG-KEY-remi2021
+    gpgcheck: yes
+
 # TODO: PHP 7.2 support will be removed soon. This is only being left in here as
 # a convenience for legacy PHP 7.2 users.
 - name: Enable remi repo for PHP 7.2.
@@ -35,7 +60,6 @@
 
     - name: Enable DNF module for CentOS 8+.
       shell: |
-        dnf config-manager --set-enabled powertools
         dnf module enable -y php:remi-{{ php_version }}
       register: dnf_module_enable
       changed_when: "'Nothing to do' not in dnf_module_enable.stdout"
